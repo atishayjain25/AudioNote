@@ -16,13 +16,28 @@
         <activity
             android:name="com.android.audionote.FirstRun"
             android:label="@string/app_name" >
+            <!-- <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter> -->
+        </activity>
+
+        <service android:name="com.android.audionote.ListenerService" >
+        </service>
+
+        <activity
+            android:name="com.android.audionote.AudioNote_main_activity"
+            android:label="@string/title_activity_audio_note_main_activity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name="com.android.audionote.ListenerService" >
-		</service> 
+        <activity android:name=".SingleListItem"
+                    android:label="Single Item Selected">
+        </activity>
     </application>
 
 </manifest>
