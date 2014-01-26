@@ -1,7 +1,8 @@
-package com.android.audionote.controller;
+package com.android.audionote;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 import android.app.Service;
 import android.content.Context;
@@ -51,6 +52,7 @@ public class ListenerService extends Service implements SensorEventListener {
 	private List<DataPoint> dataPoints = new ArrayList<DataPoint>();
 	
 	private static final int SHAKE_CHECK_THRESHOLD = 200;
+	private boolean IsFileRecording = false;
 	
 	/**
 	 * After we detect a shake, we ignore any events for a bit of time. We don't want two shakes to close together.
@@ -130,7 +132,7 @@ public class ListenerService extends Service implements SensorEventListener {
                         z_dir = -1;
                 }
         }
-        Log.i(TAG,Integer.toString(x_pos)+" - "+Integer.toString(x_neg)+"  "+Integer.toString(y_pos)+" - "+Integer.toString(y_neg)+"  "+Integer.toString(z_pos)+" - "+Integer.toString(z_neg));
+        //Log.i(TAG,Integer.toString(x_pos)+" - "+Integer.toString(x_neg)+"  "+Integer.toString(y_pos)+" - "+Integer.toString(y_neg)+"  "+Integer.toString(z_pos)+" - "+Integer.toString(z_neg));
 
         //if ((x_pos >= MINIMUM_EACH_DIRECTION && x_neg >= MINIMUM_EACH_DIRECTION) || 
                         //(y_pos >= MINIMUM_EACH_DIRECTION && y_neg >= MINIMUM_EACH_DIRECTION) || 
@@ -140,6 +142,11 @@ public class ListenerService extends Service implements SensorEventListener {
                 last_x = 0; last_y=0; last_z=0;
                 dataPoints.clear();
                 Toast.makeText(getApplicationContext(), "Shake Detected", Toast.LENGTH_LONG).show();
+                IsFileRecording = !IsFileRecording;
+                if(!IsFileRecording)
+                {
+                	NotificationHelper.DisplayNotification(this, "FileName:abcd, Size:10Kb");
+                }
                 return;
         }
 	

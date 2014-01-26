@@ -1,6 +1,5 @@
 package com.android.audionote;
 
-import com.android.audionote.controller.ListenerService;
 
 import android.os.Bundle;
 import android.app.Activity;
