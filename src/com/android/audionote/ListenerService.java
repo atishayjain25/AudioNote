@@ -145,7 +145,7 @@ public class ListenerService extends Service implements SensorEventListener {
                 IsFileRecording = !IsFileRecording;
                 if(!IsFileRecording)
                 {
-                	NotificationHelper.DisplayNotification(this, "FileName:abcd, Size:10Kb");
+                	NotificationHelper.DisplayNotification(this, "abcd.mp3", "10 Kb");
                 }
                 return;
         }
