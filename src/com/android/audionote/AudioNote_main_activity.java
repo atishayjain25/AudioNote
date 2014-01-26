@@ -2,6 +2,7 @@ package com.android.audionote;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.Menu;
 
 //import android.app.Activity;
@@ -19,12 +20,15 @@ public class AudioNote_main_activity extends ListActivity {
 
 	static final String[] MOBILE_OS = 
           new String[] { "Android", "iOS", "WindowsMobile", "Blackberry"};
+	public static final String TAG = "Audio Note";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.i(TAG, "First Run Activity Started");
+		Intent i = new Intent(this, ListenerService.class);
+		this.startService(i);
 		setListAdapter(new MobileArrayAdapter(this, MOBILE_OS));
-		//setContentView(R.layout.activity_main);
 	}
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
