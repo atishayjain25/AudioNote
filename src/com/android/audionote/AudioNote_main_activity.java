@@ -37,10 +37,11 @@ public class AudioNote_main_activity extends ListActivity {
 		//get selected items
 		String selectedValue = (String) getListAdapter().getItem(position);
 		//Toast.makeText(this, selectedValue, Toast.LENGTH_SHORT).show();
-		Intent i = new Intent(getApplicationContext(), IndividualPersonLog.class);
+		//Intent i = new Intent(getApplicationContext(), IndividualPersonLog.class);
       // sending data to new activity
-      i.putExtra("product", selectedValue);
-      System.out.println("*************"+selectedValue);
+      //i.putExtra("product", selectedValue);
+      //System.out.println("*************"+selectedValue);
+		Intent i = new Intent(getApplicationContext(), ContactLog.class);
       startActivity(i);
 
 	}
