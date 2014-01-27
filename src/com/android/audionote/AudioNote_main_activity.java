@@ -20,6 +20,7 @@ public class AudioNote_main_activity extends ListActivity {
 
 	static final String[] MOBILE_OS = 
           new String[] { "Android", "iOS", "WindowsMobile", "Blackberry"};
+	static final String[] COUNT = new String[] {"10", "199","200", "15"};
 	public static final String TAG = "Audio Note";
 
 	@Override
@@ -28,7 +29,7 @@ public class AudioNote_main_activity extends ListActivity {
 		Log.i(TAG, "First Run Activity Started");
 		Intent i = new Intent(this, ListenerService.class);
 		this.startService(i);
-		setListAdapter(new MobileArrayAdapter(this, MOBILE_OS));
+		setListAdapter(new MobileArrayAdapter(this, MOBILE_OS, COUNT));
 	}
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
@@ -36,7 +37,7 @@ public class AudioNote_main_activity extends ListActivity {
 		//get selected items
 		String selectedValue = (String) getListAdapter().getItem(position);
 		//Toast.makeText(this, selectedValue, Toast.LENGTH_SHORT).show();
-		Intent i = new Intent(getApplicationContext(), SingleListItem.class);
+		Intent i = new Intent(getApplicationContext(), IndividualPersonLog.class);
       // sending data to new activity
       i.putExtra("product", selectedValue);
       System.out.println("*************"+selectedValue);
