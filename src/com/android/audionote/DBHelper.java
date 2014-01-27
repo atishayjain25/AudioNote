@@ -16,7 +16,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	 public static final int DB_VERSION = 1;
 	 
 	 private static final String table_contactInfo 	= "ContactInfo";
-	 private static final String contact_Id 		= "NameId";
+	 private static final String contact_Id 		= "ContactId";
 	 private static final String contact_name 		= "Name";
 	 private static final String contact_phone 		= "PhoneNo";
 	 

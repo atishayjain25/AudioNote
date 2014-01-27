@@ -1,17 +1,23 @@
 package com.android.audionote;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import android.app.Service;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.Uri;
+import android.os.Bundle;
 import android.os.IBinder;
+import android.provider.ContactsContract;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -53,6 +59,7 @@ public class ListenerService extends Service implements SensorEventListener {
 	
 	private static final int SHAKE_CHECK_THRESHOLD = 200;
 	private boolean IsFileRecording = false;
+	private static String incall = "?";
 	
 	/**
 	 * After we detect a shake, we ignore any events for a bit of time. We don't want two shakes to close together.
@@ -147,8 +154,59 @@ public class ListenerService extends Service implements SensorEventListener {
                 {
                 	NotificationHelper.DisplayNotification(this, "abcd.mp3", "10 Kb");
                 }
+                
+                // TO get the caller ID at the time of recording
+               
+                if (IsFileRecording)
+                {
+                	// Pass the other side phone number to this variable
+                	incall = "9573230861";
+                }
+                
+                if(!IsFileRecording)
+                {
+                	PickContact(this, incall);
+                }
                 return;
         }
 	
 	}
+	
+	private void PickContact (Context context, String number){
+    	String name = null;
+    	String contactId = null;
+    	Log.d("test", "number = " + number);
+    	// define the columns I want the query to return
+    	String[] projection = new String[] {
+    	        ContactsContract.PhoneLookup.DISPLAY_NAME,
+    	        ContactsContract.PhoneLookup._ID};
+    	// encode the phone number and build the filter URI
+    	Uri contactUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
+    	// query time
+    	Cursor cursor = context.getContentResolver().query(contactUri, projection, null, null, null);
+    	if (cursor.getCount() > 0) {
+    		Log.d("test","in the if");
+    	    // Get values from contacts database:
+    		Log.d("test",cursor.getCount() + " hi");
+    		cursor.moveToFirst();
+    	    contactId = cursor.getString(cursor.getColumnIndex(ContactsContract.PhoneLookup._ID));
+    	    name =      cursor.getString(cursor.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME));
+
+    	    // Get photo of contactId as input stream:
+    	    Log.d("test", "Started uploadcontactphoto: Contact Found @ " + number);            
+    	    Log.d("test", "Started uploadcontactphoto: Contact name  = " + name);
+    	    Log.d("test", "Started uploadcontactphoto: Contact id    = " + contactId);
+
+    	} else {
+    		Log.d("test","in the else");
+    	    Log.d("test", "Started uploadcontactphoto: Contact Not Found @ " + number);
+    	    return; // contact not found
+
+    	}
+
+    	// Only continue if we found a valid contact photo:
+    	
+    	cursor.close();
+
+    }
 }
