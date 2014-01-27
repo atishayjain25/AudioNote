@@ -9,5 +9,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="dummydata">Dummy Data</string>
     <string name="label">Contact Name</string>
+    <string name="label_count">(200)</string>
+    <string name="file_name">file20131225.mp3</string>
+    <string name="file_date">Dec 25, 2013</string>
 
 </resources>

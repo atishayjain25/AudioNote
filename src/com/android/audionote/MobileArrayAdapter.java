@@ -10,12 +10,14 @@ import android.widget.TextView;
  
 public class MobileArrayAdapter extends ArrayAdapter<String> {
 	private final Context context;
-	private final String[] values;
+	private final String[] names;
+	private final String[] counts;
  
-	public MobileArrayAdapter(Context context, String[] values) {
-		super(context, R.layout.list_view, values);
+	public MobileArrayAdapter(Context context, String[] names, String[] counts) {
+		super(context, R.layout.audio_log, names);
 		this.context = context;
-		this.values = values;
+		this.names = names;
+		this.counts=counts;
 	}
  
 	@Override
@@ -23,13 +25,15 @@ public class MobileArrayAdapter extends ArrayAdapter<String> {
 		LayoutInflater inflater = (LayoutInflater) context
 			.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
  
-		View rowView = inflater.inflate(R.layout.list_view, parent, false);
-		TextView textView = (TextView) rowView.findViewById(R.id.label);
+		View rowView = inflater.inflate(R.layout.audio_log, parent, false);
+		TextView textView_name = (TextView) rowView.findViewById(R.id.label);
+		TextView textView_count= (TextView) rowView.findViewById(R.id.count);
 		ImageView imageView = (ImageView) rowView.findViewById(R.id.logo);
-		textView.setText(values[position]);
+		textView_name.setText(names[position]);
+		textView_count.setText(counts[position]);
  
 		// Change icon based on name
-		String s = values[position];
+		String s = names[position];
  
 		System.out.println(s);
 		imageView.setImageResource(R.drawable.default_picture);
