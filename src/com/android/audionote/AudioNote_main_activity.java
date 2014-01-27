@@ -1,23 +1,22 @@
 package com.android.audionote;
 
-import android.os.Bundle;
-import android.app.Activity;
-import android.util.Log;
-import android.view.Menu;
-
-//import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
-//import android.util.Log;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
 import android.view.View;
-//import android.widget.AdapterView;
 import android.widget.ListView;
+//import android.app.Activity;
+//import android.util.Log;
+//import android.widget.AdapterView;
 //import android.widget.TextView;
 //import android.widget.Toast;
 //import android.widget.AdapterView.OnItemClickListener;
 
 public class AudioNote_main_activity extends ListActivity {
 
+	// [Mayank]  and number of audio snippet
 	static final String[] MOBILE_OS = 
           new String[] { "Android", "iOS", "WindowsMobile", "Blackberry"};
 	static final String[] COUNT = new String[] {"10", "199","200", "15"};
