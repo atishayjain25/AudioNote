@@ -1,5 +1,6 @@
 package com.android.audionote;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
@@ -28,6 +29,9 @@ public class IndividualPersonLog extends ListActivity{
         Log.i("MyList", "Passed value" + product);
         txtProduct.setText(product);*/
         setListAdapter(new MobileArrayAdapter_IndividualPerson(this,Individual_lists,Dates));
+        ActionBar ab = getActionBar();
+        ab.setTitle("My Title");
+        ab.setSubtitle("sub-title");
     }
     
     @Override
