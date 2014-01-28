@@ -169,9 +169,10 @@ public class DB {
 	    {
 	    	ArrayList<String> names = new ArrayList<String>();
 	    	ArrayList<String> count = new ArrayList<String>();
+	    	ArrayList<String> contactId = new ArrayList<String>();
 	    	
 	    	ArrayList<ArrayList<String>> output = new ArrayList<ArrayList<String>>();
-	    	String query = "Select max(t.StartTime) as s, c.Name , c.NoOfAudios From [CallInfo]  t JOIN ContactInfo as c on c.ContactId = t.NameId GROUP BY t.NameId ORDER BY s DESC";
+	    	String query = "Select max(t.StartTime) as s, c.Name , c.NoOfAudios, c.ContactId From [CallInfo]  t JOIN ContactInfo as c on c.ContactId = t.NameId GROUP BY t.NameId ORDER BY s DESC";
 	    	//String test = "Select Name, NoOfAudios From ContactInfo";
 	    	SQLiteDatabase db = open();
 	    	Cursor cursor = db.rawQuery(query, null); 
@@ -182,10 +183,12 @@ public class DB {
 	    		Log.d("getMain", cursor.getString(cursor.getColumnIndex("Name")));
 	            names.add(cursor.getString(cursor.getColumnIndex("Name"))) ;
 	            count.add(cursor.getString(cursor.getColumnIndex("NoOfAudios")));
+	            contactId.add(cursor.getString(cursor.getColumnIndex("ContactId")));
 	            cursor.moveToNext();  
 	        }
 	    	output.add(names);
 	    	output.add(count);
+	    	output.add(contactId);
 	    	cursor.close();
 	    	close();
 	    	return output;
@@ -193,7 +196,7 @@ public class DB {
 	    
 	    public ArrayList<Object> getCallandAudioDetails( int contactId)
 	    {
-	    	String Topquery = "Select StartTime, Duration, Callid From CallInfo WHERE NameId =" + contactId + " ORDER BY StartTime DESC";
+	    	String Topquery = "Select StartTime, Duration, Callid From CallInfo WHERE NameId = " + contactId + " ORDER BY StartTime DESC";
 	    	String bottomQuery;
 	    	int callId;
 	    	ArrayList<String> callLog = new ArrayList<String>();
