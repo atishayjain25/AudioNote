@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import android.app.ActionBar;
 import android.app.ExpandableListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.ExpandableListView;
 
@@ -22,6 +24,11 @@ public class ContactLog extends ExpandableListActivity{
 		// this is not really  necessary as ExpandableListActivity contains an ExpandableList
 		//setContentView(R.layout.main);
 
+		Intent i = getIntent();
+        // getting attached intent data
+        String contactId = i.getStringExtra("contactId");
+        Log.d("Contact View", "Contact Id: "+ contactId);
+        int cId = Integer.parseInt(contactId);
 		ExpandableListView expandableList = getExpandableListView(); // you can use (ExpandableListView) findViewById(R.id.list)
 
 		expandableList.setDividerHeight(2);
@@ -31,7 +38,9 @@ public class ContactLog extends ExpandableListActivity{
 		setGroupParents();
 		setChildData();
 
-		ContactViewAdapter adapter = new ContactViewAdapter(this, parentItems, childItems);
+		DB db = new DB(this);
+		ArrayList<Object> result = db.getCallandAudioDetails(cId);
+		ContactViewAdapter adapter = new ContactViewAdapter(this, (ArrayList<String>)result.get(0), (ArrayList<Object>)result.get(1));
 
 		adapter.setInflater((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE), this);
 		expandableList.setAdapter(adapter);

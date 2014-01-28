@@ -89,7 +89,7 @@ public class ContactViewAdapter extends BaseExpandableListAdapter {
 			convertView = inflater.inflate(R.layout.contactview, null);
 		}
 
-		((TextView) convertView.findViewById(R.id.textView1)).setText(parentItems.get(groupPosition));
+		((TextView) convertView.findViewById(R.id.textView1)).setText(parentItems.get(groupPosition*3 + 2));
 		//((CheckedTextView) convertView).setChecked(isExpanded);
 
 		return convertView;
@@ -117,7 +117,7 @@ public class ContactViewAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public int getGroupCount() {
-		return parentItems.size();
+		return parentItems.size()/3;
 	}
 
 	@Override

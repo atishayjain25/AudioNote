@@ -196,14 +196,16 @@ public class DB {
 	    
 	    public ArrayList<Object> getCallandAudioDetails( int contactId)
 	    {
-	    	String Topquery = "Select StartTime, Duration, Callid From CallInfo WHERE NameId = " + contactId + " ORDER BY StartTime DESC";
+	    	String Topquery = "Select StartTime, Duration, Callid From CallInfo WHERE NameId = " + contactId + " ORDER BY Callid DESC";
+	    	Log.d("test", Topquery);
 	    	String bottomQuery;
 	    	int callId;
 	    	ArrayList<String> callLog = new ArrayList<String>();
 	    	ArrayList<String> audioLog;
-	    	ArrayList<ArrayList<String>> Audio = new ArrayList<ArrayList<String>>();
+	    	ArrayList<Object> Audio = new ArrayList<Object>();
 	    	SQLiteDatabase db = open();
 	    	Cursor bottomcursor, Topcursor = db.rawQuery(Topquery, null);
+	    	Log.d("test", "Top count  = " + Topcursor.getCount());
 	    	
 	    	Topcursor.moveToFirst();
 	    	while(!Topcursor.isAfterLast()) {
@@ -212,18 +214,19 @@ public class DB {
 	    		
 	    		callId = Integer.parseInt(Topcursor.getString(Topcursor.getColumnIndex("Callid")));
 	    		bottomQuery = "Select StartTime, EndTime, AudioName, AudioSize FROM AudioInfo WHERE Callid = "+ callId + " ORDER BY StartTime DESC";
-	    		
+	    		Log.d("test",bottomQuery);
 	    		bottomcursor = db.rawQuery(bottomQuery, null);
+	    		Log.d("test","after second call");
 	    		callLog.add(bottomcursor.getCount()+"");
 	    		audioLog = new ArrayList<String>();
 	    		
 	    		bottomcursor.moveToFirst();
 	    		while(!bottomcursor.isAfterLast()){
 	    			audioLog.add(bottomcursor.getString(bottomcursor.getColumnIndex("StartTime")));
-	    			audioLog.add(bottomcursor.getString(bottomcursor.getColumnIndex("Endtime")));
+	    			audioLog.add(bottomcursor.getString(bottomcursor.getColumnIndex("EndTime")));
 	    			audioLog.add(bottomcursor.getString(bottomcursor.getColumnIndex("AudioSize")));
 	    			audioLog.add(bottomcursor.getString(bottomcursor.getColumnIndex("AudioName")));
-	    			
+	    			Log.d("test", "Next Audio");
 	    			bottomcursor.moveToNext();
 	    		}
 	    		bottomcursor.close();

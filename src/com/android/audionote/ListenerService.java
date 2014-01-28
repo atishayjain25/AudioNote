@@ -65,6 +65,7 @@ public class ListenerService extends Service implements SensorEventListener {
 	private static int callId = 0;
 	private String recordingStartTime;
 	private String recordingEndTime;
+	private String[] contact = null;
 	
 	/**
 	 * After we detect a shake, we ignore any events for a bit of time. We don't want two shakes to close together.
@@ -194,7 +195,6 @@ public class ListenerService extends Service implements SensorEventListener {
 		String filesize = audioFile.length()/1024 + " KB";
 		NotificationHelper.DisplayNotification(this, fileName, filesize);
 		
-		String[] contact = null;
     	if (callId == 0)
     	{
     		contact = PickContact(this, incall);

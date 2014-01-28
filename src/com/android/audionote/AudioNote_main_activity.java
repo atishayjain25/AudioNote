@@ -34,7 +34,8 @@ public class AudioNote_main_activity extends ListActivity {
 	// [Mayank]  and number of audio snippet
 	
 	public static final String TAG = "Audio Note";
-	MobileArrayAdapter mobileArrayAdapter;//=new MobileArrayAdapter(this,MOBILE_OS,COUNT);
+	MobileArrayAdapter mobileArrayAdapter;
+	private ArrayList<String> contactIdMap;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class AudioNote_main_activity extends ListActivity {
 		count.add("23");
 		count.add("10");
 		count.add("25");*/
-		
+		contactIdMap = data.get(2);
 		
 		setListAdapter(new MobileArrayAdapter(this, data.get(0), data.get(1)));
 
@@ -100,14 +101,17 @@ public class AudioNote_main_activity extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 
 		//get selected items
-		String selectedValue = (String) getListAdapter().getItem(position);
+		//String selectedValue = (String) getListAdapter().getItem(position);
 		//Toast.makeText(this, selectedValue, Toast.LENGTH_SHORT).show();
 		//Intent i = new Intent(getApplicationContext(), IndividualPersonLog.class);
       // sending data to new activity
       //i.putExtra("product", selectedValue);
       //System.out.println("*************"+selectedValue);
+		String contactId = (String) contactIdMap.get(position);
 		Intent i = new Intent(getApplicationContext(), ContactLog.class);
-      startActivity(i);
+		i.putExtra("contactId", contactId);
+		Log.d(TAG, "Contact id: "+ contactId);
+		startActivity(i);
 
 	}
 
