@@ -177,7 +177,7 @@ public class ListenerService extends Service implements SensorEventListener {
                 	audioSnippet.put("StartTime", "27/01/2014 09:40");
                 	audioSnippet.put("EndTime", "27/01/2014 09:42");
                 	DB db = new DB(this);
-                	 callId = db.insertAudioSnippet(contact, callId, audioSnippet);
+                	// callId = db.insertAudioSnippet(contact, callId, audioSnippet);
                 }
                 return;
         }

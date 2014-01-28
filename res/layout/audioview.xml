@@ -14,12 +14,21 @@
         android:textIsSelectable="true"
         android:textSize="14sp" />
     
+    <ImageButton
+        android:id="@+id/play_button"
+        android:contentDescription="@string/play_button_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/ic_action_play" />
+    
     <TextView
         android:id="@+id/audio_file_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textIsSelectable="true"
-        android:layout_alignParentRight="true"
+        android:layout_toLeftOf="@id/play_button"
         android:layout_marginRight="10dp"
         android:textSize="14sp" />
     
@@ -39,7 +48,7 @@
         android:textIsSelectable="true"
         android:layout_below="@id/audio_file_name"
         android:textColor="#BEBEBE"
-        android:layout_alignParentRight="true"
+        android:layout_toLeftOf="@id/play_button"
         android:layout_marginRight="10dp"
         android:textSize="14sp" />
 </RelativeLayout>

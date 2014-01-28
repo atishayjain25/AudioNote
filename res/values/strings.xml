@@ -17,4 +17,5 @@
     <string name="title_activity_contact_log">ContactLog</string>
     <string name="duration">5 minutes</string>
     <string name="audio_snippets">6</string>
+    <string name="play_button_desc">Play this audio</string>
 </resources>
