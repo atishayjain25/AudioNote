@@ -12,6 +12,13 @@
     <string name="label_count">(200)</string>
     <string name="file_name">file20131225.mp3</string>
     <string name="file_date">Dec 25, 2013</string>
+	<string name="search_hint">Search for people</string>
+	<string name="search_title">Audio Logs</string>
     <string name="title_activity_contact_log">ContactLog</string>
+
+
+    <string name="duration">5 minutes</string>
+    <string name="audio_snippets">6</string>
+
 
 </resources>
