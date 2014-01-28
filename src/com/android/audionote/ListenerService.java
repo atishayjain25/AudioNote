@@ -1,6 +1,9 @@
 package com.android.audionote;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.app.Service;
@@ -60,6 +63,8 @@ public class ListenerService extends Service implements SensorEventListener {
 	private boolean IsRecordingActive = false;
 	private static String incall = "?";
 	private static int callId = 0;
+	private String recordingStartTime;
+	private String recordingEndTime;
 	
 	/**
 	 * After we detect a shake, we ignore any events for a bit of time. We don't want two shakes to close together.
@@ -167,7 +172,6 @@ public class ListenerService extends Service implements SensorEventListener {
                 {
                 	StopRecording();
                 	Toast.makeText(getApplicationContext(), "Shake Detected: Stop recording", Toast.LENGTH_LONG).show();
-                	NotificationHelper.DisplayNotification(this, "abcd.mp3", "10 Kb");
                 	IsRecordingActive = false;
                 }
                 
@@ -178,25 +182,34 @@ public class ListenerService extends Service implements SensorEventListener {
 	
 	public void StartRecording()
 	{
-		
+		recordingStartTime = new SimpleDateFormat("dd-MM-yyyy hh-mm-ss").format(new Date());
+		CallRecorder.StartRecording(getApplicationContext());
 	}
 	
 	public void StopRecording()
 	{
+		recordingEndTime = new SimpleDateFormat("dd-MM-yyyy hh-mm-ss").format(new Date());
+		File audioFile = CallRecorder.StopRecording();
+		String fileName = audioFile.getName();
+		String filesize = audioFile.length()/1024 + " KB";
+		NotificationHelper.DisplayNotification(this, fileName, filesize);
+		
 		String[] contact = null;
     	if (callId == 0)
     	{
     		contact = PickContact(this, incall);
+    		
     	}
     	// TODO Pass the recorded audio name 
     	ContentValues audioSnippet = new ContentValues();
     	//SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-    	audioSnippet.put("AudioName", "dummy");
-    	audioSnippet.put("AudioSize", "1 mb");
-    	audioSnippet.put("StartTime", "27/01/2014 09:40");
-    	audioSnippet.put("EndTime", "27/01/2014 09:42");
+    	audioSnippet.put("AudioName", fileName);
+    	audioSnippet.put("AudioSize", filesize);
+    	audioSnippet.put("StartTime", recordingStartTime);
+    	audioSnippet.put("EndTime", recordingEndTime);
     	DB db = new DB(this);
     	callId = db.insertAudioSnippet(contact, callId, audioSnippet);
+    	Log.d("AudioNote Database", "call id: " + callId);
 	}
 	
 	public static void setOtherPartyPhoneNumber(String phoneNumber)
