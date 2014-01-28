@@ -22,6 +22,7 @@ public class DB {
 	 private static final String contact_Id 		= "ContactId";
 	 private static final String contact_name 		= "Name";
 	 private static final String contact_phone 		= "PhoneNo";
+	 private static final String contact_NoOfAudios = "NoOfAudios";
 	 
 	 private static final String table_CallInfo 	= "CallInfo";
 	 private static final String call_id 			= "Callid";
@@ -40,7 +41,8 @@ public class DB {
 			 "Create table " + table_contactInfo +
 			 "("+ contact_Id +" integer Primary Key , " +
 			 contact_name + " varchar(25), " +
-			 		contact_phone +" varchar(15) not null);";
+			 contact_phone +" varchar(15) not null," +
+			 		contact_NoOfAudios +" integer);";
 	 
 	 private static final String CR_Table_CallInfo =
 			 "Create Table " + table_CallInfo +
@@ -128,9 +130,16 @@ public class DB {
 	    		Cursor c = db.rawQuery(findContact, null);
 	            if (c == null ) {
 	                // insert the contact in ContactInfo
-	            	String insertContact = "Insert into " + table_contactInfo + "("+contactId+","+contact[2] +"," +contact[1]+");";
+	            	String insertContact = "Insert into " + table_contactInfo + "("+contactId+",'"+contact[2]+"','"+contact[1]+"',1);";
 	            	Log.d("test",insertContact);
 	            	db.rawQuery(insertContact, null);
+	            }
+	            else
+	            {
+	            	//TODO Update the NoOf Audios to +1
+	            	String updateNoOfAudios = "Update " + table_contactInfo + " SET " + contact_NoOfAudios + " = " + 
+	            									contact_NoOfAudios + " + 1 Where " + contact_Id + " = "+contactId;
+	            	db.rawQuery(updateNoOfAudios, null);
 	            }
 	    		// insert the call and return the callId
 	            ContentValues values = new ContentValues();
