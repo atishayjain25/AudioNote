@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import android.app.Service;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +18,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.IBinder;
+import android.provider.CallLog;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.widget.Toast;
@@ -216,6 +218,18 @@ public class ListenerService extends Service implements SensorEventListener {
 	{
 		incall = phoneNumber;
 		callId = 0;
+	}
+	
+	public static void getCallLogData(Context context)
+	{
+		Cursor managedCursor = context.getContentResolver().query(CallLog.Calls.CONTENT_URI, null, null, null, null);
+	    int number = managedCursor.getColumnIndex( CallLog.Calls.NUMBER ); 
+	    int type = managedCursor.getColumnIndex( CallLog.Calls.TYPE );
+	    int date = managedCursor.getColumnIndex( CallLog.Calls.DATE);
+	    int duration = managedCursor.getColumnIndex( CallLog.Calls.DURATION);
+	    
+	    managedCursor.moveToFirst();
+	    
 	}
 	
 	private String[] PickContact (Context context, String number){

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.widget.Toast;
 
 public class IncomingCallReceiver extends BroadcastReceiver {
 
@@ -26,6 +25,11 @@ public class IncomingCallReceiver extends BroadcastReceiver {
 			String phonenumber = bundle.getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
 			Log.i("IncomingCallReceiver","Incomng Number: " + phonenumber);
 			ListenerService.setOtherPartyPhoneNumber(phonenumber);
+		}
+		
+		if(state.equals(TelephonyManager.EXTRA_STATE_IDLE))
+		{
+			
 		}
 	}
 
