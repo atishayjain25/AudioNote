@@ -11,8 +11,6 @@ import android.net.Uri;
 	public static void PlayAudio(Context context, String audioPath){
 		
 			   Intent intent = new Intent();  
-			   ComponentName comp = new ComponentName("com.android.music", "com.android.music.MediaPlaybackActivity");
-			   intent.setComponent(comp);
 			   intent.setAction(android.content.Intent.ACTION_VIEW);  
 			   File file = new File(audioPath.toString());  
 			   intent.setDataAndType(Uri.fromFile(file), "audio/*");  

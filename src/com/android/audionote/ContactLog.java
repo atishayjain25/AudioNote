@@ -40,14 +40,15 @@ public class ContactLog extends ExpandableListActivity{
 
 		DB db = new DB(this);
 		ArrayList<Object> result = db.getCallandAudioDetails(cId);
+		ArrayList<Object>audioLogs = (ArrayList<Object>)result.get(1);
 		ContactViewAdapter adapter = new ContactViewAdapter(this, (ArrayList<String>)result.get(0), (ArrayList<Object>)result.get(1));
 
 		adapter.setInflater((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE), this);
 		expandableList.setAdapter(adapter);
 		expandableList.setOnChildClickListener(this);
 		ActionBar ab = getActionBar();
-        ab.setTitle("Name");
-        ab.setSubtitle("Contact No");
+        ab.setTitle("   " + i.getStringExtra("Name"));
+        ab.setSubtitle("   " + i.getStringExtra("phoneNumber"));
 	}
 
 	public void setGroupParents() {

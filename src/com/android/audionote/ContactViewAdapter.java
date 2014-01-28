@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -45,27 +47,25 @@ public class ContactViewAdapter extends BaseExpandableListAdapter {
 		}
 
 		textView = (TextView) convertView.findViewById(R.id.audio_file_name);
-		textView.setText(child.get(childPosition));
+		textView.setText(child.get(4*(childPosition) + 3));
 		
 		textView = (TextView) convertView.findViewById(R.id.audio_file_size);
-		textView.setText("123 Kb");
-		
-		textView = (TextView) convertView.findViewById(R.id.audio_file_size);
-		textView.setText("123 Kb");
+		textView.setText(child.get(4*(childPosition) + 2));
 		
 		textView = (TextView) convertView.findViewById(R.id.audio_start_time);
-		textView.setText("2:25:10 pm");
+		textView.setText(child.get(4*(childPosition)));
 		
 		textView = (TextView) convertView.findViewById(R.id.audio_end_time);
-		textView.setText("2:26:00 pm");
+		textView.setText(child.get(4*(childPosition) + 1));
 		
 		ImageButton imageButton = (ImageButton) convertView.findViewById((R.id.play_button));
 		
 		imageButton.setOnClickListener(new OnClickListener() {
 			
+			String fullFilePath = Environment.getExternalStorageDirectory() + "/AudioNote/" + child.get(4*(childPosition) + 3);
 			@Override
 			public void onClick(View v) {
-				PlayAudioFileHelper.PlayAudio(context, "/storage/sdcard/Kamli.mp3");
+				PlayAudioFileHelper.PlayAudio(context, fullFilePath);
 				
 			}
 		});
@@ -107,7 +107,8 @@ public class ContactViewAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public int getChildrenCount(int groupPosition) {
-		return ((ArrayList<String>) childtems.get(groupPosition)).size();
+		Log.d("ContactViewAdapter", "groupPos" + groupPosition + " childSize :" + ((ArrayList<String>) childtems.get(groupPosition)).size());
+		return ((ArrayList<String>) childtems.get(groupPosition)).size()/4;
 	}
 
 	@Override
