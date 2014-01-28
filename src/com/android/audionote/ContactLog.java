@@ -31,7 +31,7 @@ public class ContactLog extends ExpandableListActivity{
 		setGroupParents();
 		setChildData();
 
-		ContactViewAdapter adapter = new ContactViewAdapter(parentItems, childItems);
+		ContactViewAdapter adapter = new ContactViewAdapter(this, parentItems, childItems);
 
 		adapter.setInflater((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE), this);
 		expandableList.setAdapter(adapter);

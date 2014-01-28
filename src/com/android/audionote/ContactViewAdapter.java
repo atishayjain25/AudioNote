@@ -3,12 +3,14 @@ package com.android.audionote;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckedTextView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,8 +20,10 @@ public class ContactViewAdapter extends BaseExpandableListAdapter {
 	private ArrayList<Object> childtems;
 	private LayoutInflater inflater;
 	private ArrayList<String> parentItems, child;
+	private Context context;
 
-	public ContactViewAdapter(ArrayList<String> parents, ArrayList<Object> childern) {
+	public ContactViewAdapter(Context context, ArrayList<String> parents, ArrayList<Object> childern) {
+		this.context = context;
 		this.parentItems = parents;
 		this.childtems = childern;
 	}
@@ -54,6 +58,17 @@ public class ContactViewAdapter extends BaseExpandableListAdapter {
 		
 		textView = (TextView) convertView.findViewById(R.id.audio_end_time);
 		textView.setText("2:26:00 pm");
+		
+		ImageButton imageButton = (ImageButton) convertView.findViewById((R.id.play_button));
+		
+		imageButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				PlayAudioFileHelper.PlayAudio(context, "/storage/sdcard/Kamli.mp3");
+				
+			}
+		});
 
 		convertView.setOnClickListener(new OnClickListener() {
 
