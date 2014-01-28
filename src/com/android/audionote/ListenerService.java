@@ -56,7 +56,8 @@ public class ListenerService extends Service implements SensorEventListener {
 	private List<DataPoint> dataPoints = new ArrayList<DataPoint>();
 	
 	private static final int SHAKE_CHECK_THRESHOLD = 200;
-	private boolean IsFileRecording = false;
+	private boolean StartRecording = false;
+	private boolean IsRecordingActive = false;
 	private static String incall = "?";
 	private static int callId = 0;
 	
@@ -147,41 +148,60 @@ public class ListenerService extends Service implements SensorEventListener {
                 lastShake = System.currentTimeMillis();
                 last_x = 0; last_y=0; last_z=0;
                 dataPoints.clear();
-                Toast.makeText(getApplicationContext(), "Shake Detected", Toast.LENGTH_LONG).show();
-                IsFileRecording = !IsFileRecording;
-                if(!IsFileRecording)
+                if(!StartRecording)
                 {
+                	StartRecording = CallRecorder.IsCallActive(getApplicationContext());
+                }
+                else
+                {
+                	StartRecording = false;
+                }
+                
+                if(StartRecording)
+                {
+                	IsRecordingActive = true;
+                	Toast.makeText(getApplicationContext(), "Shake Detected: Starting recording" + incall, Toast.LENGTH_LONG).show();
+                	StartRecording();
+                }
+                else if(IsRecordingActive)
+                {
+                	StopRecording();
+                	Toast.makeText(getApplicationContext(), "Shake Detected: Stop recording", Toast.LENGTH_LONG).show();
                 	NotificationHelper.DisplayNotification(this, "abcd.mp3", "10 Kb");
+                	IsRecordingActive = false;
                 }
                 
-                // TO get the caller ID at the time of recording
-               
-                if (IsFileRecording)
-                {
-                	// TODO Pass the other side phone number to this variable
-                	incall = "9573230861";
-                }
-                
-                if(!IsFileRecording)
-                {
-                	String[] contact = null;
-                	if (callId == 0)
-                	{
-                		contact = PickContact(this, incall);
-                	}
-                	// TODO Pass the recorded audio name 
-                	ContentValues audioSnippet = new ContentValues();
-                	//SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-                	audioSnippet.put("AudioName", "dummy");
-                	audioSnippet.put("AudioSize", "1 mb");
-                	audioSnippet.put("StartTime", "27/01/2014 09:40");
-                	audioSnippet.put("EndTime", "27/01/2014 09:42");
-                	DB db = new DB(this);
-                	// callId = db.insertAudioSnippet(contact, callId, audioSnippet);
-                }
                 return;
         }
 	
+	}
+	
+	public void StartRecording()
+	{
+		
+	}
+	
+	public void StopRecording()
+	{
+		String[] contact = null;
+    	if (callId == 0)
+    	{
+    		contact = PickContact(this, incall);
+    	}
+    	// TODO Pass the recorded audio name 
+    	ContentValues audioSnippet = new ContentValues();
+    	//SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    	audioSnippet.put("AudioName", "dummy");
+    	audioSnippet.put("AudioSize", "1 mb");
+    	audioSnippet.put("StartTime", "27/01/2014 09:40");
+    	audioSnippet.put("EndTime", "27/01/2014 09:42");
+    	DB db = new DB(this);
+    	callId = db.insertAudioSnippet(contact, callId, audioSnippet);
+	}
+	
+	public static void setOtherPartyPhoneNumber(String phoneNumber)
+	{
+		incall = phoneNumber;
 	}
 	
 	private String[] PickContact (Context context, String number){
