@@ -23,7 +23,7 @@ public class CallRecorder {
         if (!sampleDir.exists()) {
             sampleDir.mkdirs();
         }
-        String file_name = "Record";
+        String file_name = "AudioNote";
         try {
             audiofile = File.createTempFile(file_name, ".3gp", sampleDir);
         } catch (IOException e) {

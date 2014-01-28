@@ -1,6 +1,8 @@
 package com.android.audionote;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
@@ -45,6 +47,23 @@ public class ContactViewAdapter extends BaseExpandableListAdapter {
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.audioview, null);
 		}
+		
+		String startDateString;
+		String durationString;
+		try
+		{
+			Date startDate = new SimpleDateFormat("dd-MM-yyyy hh-mm-ss").parse(child.get(4*(childPosition)));
+			Date endDate = new SimpleDateFormat("dd-MM-yyyy hh-mm-ss").parse(child.get(4*(childPosition) + 1));
+			
+			startDateString = new SimpleDateFormat("dd-MMM hh-mm a").format(startDate);
+			long duration = ((endDate.getTime() - startDate.getTime())/1000);
+			durationString = duration + " sec";
+		}
+		catch(Exception ex)
+		{
+			startDateString = child.get(4*(childPosition));
+			durationString = child.get(4*(childPosition) + 1);
+		}
 
 		textView = (TextView) convertView.findViewById(R.id.audio_file_name);
 		textView.setText(child.get(4*(childPosition) + 3));
@@ -53,10 +72,10 @@ public class ContactViewAdapter extends BaseExpandableListAdapter {
 		textView.setText(child.get(4*(childPosition) + 2));
 		
 		textView = (TextView) convertView.findViewById(R.id.audio_start_time);
-		textView.setText(child.get(4*(childPosition)));
+		textView.setText(startDateString);
 		
 		textView = (TextView) convertView.findViewById(R.id.audio_end_time);
-		textView.setText(child.get(4*(childPosition) + 1));
+		textView.setText(durationString);
 		
 		ImageButton imageButton = (ImageButton) convertView.findViewById((R.id.play_button));
 		
