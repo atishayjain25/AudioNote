@@ -29,7 +29,7 @@ public class IncomingCallReceiver extends BroadcastReceiver {
 		
 		if(state.equals(TelephonyManager.EXTRA_STATE_IDLE))
 		{
-			
+			ListenerService.getCallLogData(context);
 		}
 	}
 
