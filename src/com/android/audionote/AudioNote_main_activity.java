@@ -1,5 +1,7 @@
 package com.android.audionote;
 
+import java.util.ArrayList;
+
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,13 +15,17 @@ import android.widget.ListView;
 //import android.widget.TextView;
 //import android.widget.Toast;
 //import android.widget.AdapterView.OnItemClickListener;
+//import android.app.Activity;
+//import android.util.Log;
+//import android.widget.AdapterView;
+//import android.widget.TextView;
+//import android.widget.Toast;
+//import android.widget.AdapterView.OnItemClickListener;
 
 public class AudioNote_main_activity extends ListActivity {
 
 	// [Mayank]  and number of audio snippet
-	static final String[] MOBILE_OS = 
-          new String[] { "Android", "iOS", "WindowsMobile", "Blackberry"};
-	static final String[] COUNT = new String[] {"10", "199","200", "15"};
+	
 	public static final String TAG = "Audio Note";
 
 	@Override
@@ -28,7 +34,10 @@ public class AudioNote_main_activity extends ListActivity {
 		Log.i(TAG, "First Run Activity Started");
 		Intent i = new Intent(this, ListenerService.class);
 		this.startService(i);
-		setListAdapter(new MobileArrayAdapter(this, MOBILE_OS, COUNT));
+		DB db = new DB(this);
+		ArrayList<ArrayList<String>> data = db.mainActivityData();
+		
+		setListAdapter(new MobileArrayAdapter(this, data.get(0), data.get(1)));
 	}
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {

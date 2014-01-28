@@ -1,5 +1,7 @@
 package com.android.audionote;
 
+import java.util.ArrayList;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -27,7 +29,7 @@ public class DB {
 	 private static final String table_CallInfo 	= "CallInfo";
 	 private static final String call_id 			= "Callid";
 	 private static final String call_starttime 	= "StartTime";
-	 private static final String call_endtime 		= "EndTime";
+	 private static final String call_Duration 		= "Duration";
 	 private static final String call_Ref_contact_id= "NameId";
 	 
 	 private static final String table_AudioInfo	= "AudioInfo";
@@ -48,7 +50,7 @@ public class DB {
 			 "Create Table " + table_CallInfo +
 			 "("+ call_id +" integer Primary Key autoincrement, " +
 			 call_starttime +" varchar(25), " +
-			 call_endtime +" varchar(25), " +
+			 call_Duration +" varchar(25), " +
 			 call_Ref_contact_id + " integer," +
 			 "FOREIGN KEY (" + call_Ref_contact_id + ") REFERENCES "+ table_contactInfo +"(" +contact_Id +"));";
 	 
@@ -136,7 +138,7 @@ public class DB {
 	            }
 	            else
 	            {
-	            	//TODO Update the NoOf Audios to +1
+	            	//Update the NoOf Audios to +1
 	            	String updateNoOfAudios = "Update " + table_contactInfo + " SET " + contact_NoOfAudios + " = " + 
 	            									contact_NoOfAudios + " + 1 Where " + contact_Id + " = "+contactId;
 	            	db.rawQuery(updateNoOfAudios, null);
@@ -152,6 +154,28 @@ public class DB {
 	    	close();
 	    	
 	    	return callId;
+	    }
+	    
+	    public ArrayList<ArrayList<String>> mainActivityData()
+	    {
+	    	ArrayList<String> names = new ArrayList<String>();
+	    	ArrayList<String> count = new ArrayList<String>();
+	    	
+	    	ArrayList<ArrayList<String>> output = new ArrayList<ArrayList<String>>();
+	    	String query = "Select max(t.StartTime) as s, c.Name , c.NoOfAudios From [CallInfo]  t JOIN ContactInfo as c on c.ContactId = t.NameId GROUP BY t.NameId ORDER BY s DESC";
+	    	SQLiteDatabase db = open();
+	    	Cursor cursor = db.rawQuery(query, null);
+	    	close(); 
+	  
+	    	while(!cursor.isAfterLast()) {
+	            names.add(cursor.getString(cursor.getColumnIndex("c.Name"))) ;
+	            count.add(cursor.getString(cursor.getColumnIndex("c.NoOfAudios")));
+	            cursor.moveToNext();  
+	        }
+	    	output.add(names);
+	    	output.add(count);
+	    	cursor.close();
+	    	return output;
 	    }
 }
 
