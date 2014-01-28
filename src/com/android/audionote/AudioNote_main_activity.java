@@ -1,5 +1,7 @@
 package com.android.audionote;
 
+import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.SearchManager;
@@ -10,10 +12,13 @@ import android.view.MenuInflater;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
-//import android.util.Log;
+import android.util.Log;
+import android.view.Menu;
 import android.view.View;
-//import android.widget.AdapterView;
 import android.widget.ListView;
+//import android.app.Activity
+//import android.util.Log;
+//import android.widget.AdapterView;
 //import android.widget.TextView;
 //import android.widget.Toast;
 //import android.widget.AdapterView.OnItemClickListener;
@@ -21,6 +26,7 @@ import android.widget.SearchView;
 
 public class AudioNote_main_activity extends ListActivity {
 
+	// [Mayank]  and number of audio snippet
 	static final String[] MOBILE_OS = 
           new String[] { "Android", "iOS", "WindowsMobile", "Blackberry"};
 	static final String[] COUNT = new String[] {"10", "199","200", "15"};
@@ -78,10 +84,11 @@ public class AudioNote_main_activity extends ListActivity {
 		//get selected items
 		String selectedValue = (String) getListAdapter().getItem(position);
 		//Toast.makeText(this, selectedValue, Toast.LENGTH_SHORT).show();
-		Intent i = new Intent(getApplicationContext(), IndividualPersonLog.class);
+		//Intent i = new Intent(getApplicationContext(), IndividualPersonLog.class);
       // sending data to new activity
-      i.putExtra("product", selectedValue);
-      System.out.println("*************"+selectedValue);
+      //i.putExtra("product", selectedValue);
+      //System.out.println("*************"+selectedValue);
+		Intent i = new Intent(getApplicationContext(), ContactLog.class);
       startActivity(i);
 
 	}

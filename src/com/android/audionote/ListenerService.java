@@ -1,11 +1,10 @@
 package com.android.audionote;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Service;
-import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,10 +13,8 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.ContactsContract;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -35,6 +32,7 @@ public class ListenerService extends Service implements SensorEventListener {
 	@Override
 	  public int onStartCommand(Intent intent, int flags, int startId) {
 		Log.i(TAG, "Listener Service started");
+		DB db = new DB(this);
 		//get the sensor service
 	    mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 	    //get the accelerometer sensor
@@ -60,6 +58,7 @@ public class ListenerService extends Service implements SensorEventListener {
 	private static final int SHAKE_CHECK_THRESHOLD = 200;
 	private boolean IsFileRecording = false;
 	private static String incall = "?";
+	private static int callId = 0;
 	
 	/**
 	 * After we detect a shake, we ignore any events for a bit of time. We don't want two shakes to close together.
@@ -159,20 +158,33 @@ public class ListenerService extends Service implements SensorEventListener {
                
                 if (IsFileRecording)
                 {
-                	// Pass the other side phone number to this variable
+                	// TODO Pass the other side phone number to this variable
                 	incall = "9573230861";
                 }
                 
                 if(!IsFileRecording)
                 {
-                	PickContact(this, incall);
+                	String[] contact = null;
+                	if (callId == 0)
+                	{
+                		contact = PickContact(this, incall);
+                	}
+                	// TODO Pass the recorded audio name 
+                	ContentValues audioSnippet = new ContentValues();
+                	//SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                	audioSnippet.put("AudioName", "dummy");
+                	audioSnippet.put("AudioSize", "1 mb");
+                	audioSnippet.put("StartTime", "27/01/2014 09:40");
+                	audioSnippet.put("EndTime", "27/01/2014 09:42");
+                	DB db = new DB(this);
+                	 callId = db.insertAudioSnippet(contact, callId, audioSnippet);
                 }
                 return;
         }
 	
 	}
 	
-	private void PickContact (Context context, String number){
+	private String[] PickContact (Context context, String number){
     	String name = null;
     	String contactId = null;
     	Log.d("test", "number = " + number);
@@ -193,20 +205,18 @@ public class ListenerService extends Service implements SensorEventListener {
     	    name =      cursor.getString(cursor.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME));
 
     	    // Get photo of contactId as input stream:
-    	    Log.d("test", "Started uploadcontactphoto: Contact Found @ " + number);            
-    	    Log.d("test", "Started uploadcontactphoto: Contact name  = " + name);
-    	    Log.d("test", "Started uploadcontactphoto: Contact id    = " + contactId);
+    	    Log.d("test", "Contact Found @ " + number);            
+    	    Log.d("test", "Contact name  = " + name);
+    	    Log.d("test", "Contact id    = " + contactId);
 
     	} else {
-    		Log.d("test","in the else");
     	    Log.d("test", "Started uploadcontactphoto: Contact Not Found @ " + number);
-    	    return; // contact not found
+    	    // contact not found
 
     	}
-
-    	// Only continue if we found a valid contact photo:
-    	
     	cursor.close();
+    	return new String[] {contactId, number,name};
+    	
 
     }
 }
