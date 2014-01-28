@@ -15,4 +15,10 @@
 	<string name="search_hint">Search for people</string>
 	<string name="search_title">Audio Logs</string>
     <string name="title_activity_contact_log">ContactLog</string>
+
+
+    <string name="duration">5 minutes</string>
+    <string name="audio_snippets">6</string>
+
+
 </resources>

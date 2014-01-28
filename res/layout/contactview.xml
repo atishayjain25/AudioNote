@@ -1,4 +1,4 @@
-<CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/textView1"
     android:layout_width="250dp"
@@ -6,4 +6,29 @@
     android:text="@string/file_name"
     android:textSize="25sp"
     android:layout_marginTop="10dp"
-    />
+    />-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:padding="10dp" >
+ 
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="25dp"/>
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/duration"
+        android:paddingLeft="25dp"/>
+    
+    <TextView
+    android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/audio_snippets"
+        android:paddingLeft="25dp"/>
+</LinearLayout>

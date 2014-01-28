@@ -62,8 +62,8 @@ public class ContactViewAdapter extends BaseExpandableListAdapter {
 			convertView = inflater.inflate(R.layout.contactview, null);
 		}
 
-		((CheckedTextView) convertView).setText(parentItems.get(groupPosition));
-		((CheckedTextView) convertView).setChecked(isExpanded);
+		((TextView) convertView.findViewById(R.id.textView1)).setText(parentItems.get(groupPosition));
+		//((CheckedTextView) convertView).setChecked(isExpanded);
 
 		return convertView;
 	}
