@@ -119,6 +119,7 @@ public class DB {
 	    	SQLiteDatabase db = open();
 	    	// contact array contains three string i.e., contactId, number,name
 	    	Log.d("test", "Call Id = " +callId);
+	    	int contactId;
 	    	if (callId == 0)
 	    	{
 	    		// check weather contact already exist else insert
@@ -126,27 +127,35 @@ public class DB {
 	    		{
 	    			contact[0] = contact[1];
 	    		}
-	    		int contactId = Integer.parseInt(contact[0]);
+	    		contactId = Integer.parseInt(contact[0]);
 	    		String findContact = "SELECT * FROM " + table_contactInfo + " where " + contact_Id +" = '"+contact[0]+"'";
 	    		Log.d("test", findContact);
 	    		Cursor c = db.rawQuery(findContact, null);
-	            if (c == null ) {
+	            if (c.getCount() == 0 ) {
 	                // insert the contact in ContactInfo
-	            	String insertContact = "Insert into " + table_contactInfo + "("+contactId+",'"+contact[2]+"','"+contact[1]+"',1);";
+	            	String insertContact = "Insert into " + table_contactInfo + " (ContactId, Name, PhoneNo, NoOfAudios) values ("+contactId+",'"+contact[2]+"','"+contact[1]+"',1);";
 	            	Log.d("test",insertContact);
-	            	db.rawQuery(insertContact, null);
+	            	db.execSQL(insertContact);
 	            }
-	            else
-	            {
-	            	//Update the NoOf Audios to +1
+	            else{
 	            	String updateNoOfAudios = "Update " + table_contactInfo + " SET " + contact_NoOfAudios + " = " + 
-	            									contact_NoOfAudios + " + 1 Where " + contact_Id + " = "+contactId;
-	            	db.rawQuery(updateNoOfAudios, null);
+							contact_NoOfAudios + " + 1 Where " + contact_Id + " = "+contactId;
+	            	Log.d ("test", updateNoOfAudios);
+	            	db.execSQL(updateNoOfAudios);
 	            }
 	    		// insert the call and return the callId
 	            ContentValues values = new ContentValues();
 	            values.put(call_Ref_contact_id, contactId);
 	            callId = (int) db.insert(table_CallInfo, null, values);
+	    	}
+	    	else
+	    	{
+	    		contactId = Integer.parseInt(contact[0]);
+	    		//Update the NoOf Audios to +1
+            	String updateNoOfAudios = "Update " + table_contactInfo + " SET " + contact_NoOfAudios + " = " + 
+            									contact_NoOfAudios + " + 1 Where " + contact_Id + " = "+contactId;
+            	Log.d ("test", updateNoOfAudios);
+            	db.execSQL(updateNoOfAudios);
 	    	}
 	    	
 	    	audioSnippet.put(Audio_Ref_call_id, callId);
@@ -156,26 +165,29 @@ public class DB {
 	    	return callId;
 	    }
 	    
-	    public ArrayList<ArrayList<String>> mainActivityData()
+	    public ArrayList<ArrayList<String>> getMainActivityData()
 	    {
 	    	ArrayList<String> names = new ArrayList<String>();
 	    	ArrayList<String> count = new ArrayList<String>();
 	    	
 	    	ArrayList<ArrayList<String>> output = new ArrayList<ArrayList<String>>();
 	    	String query = "Select max(t.StartTime) as s, c.Name , c.NoOfAudios From [CallInfo]  t JOIN ContactInfo as c on c.ContactId = t.NameId GROUP BY t.NameId ORDER BY s DESC";
+	    	//String test = "Select Name, NoOfAudios From ContactInfo";
 	    	SQLiteDatabase db = open();
-	    	Cursor cursor = db.rawQuery(query, null);
-	    	close(); 
-	  
+	    	Cursor cursor = db.rawQuery(query, null); 
+	    	Log.d("getMain", "cursor = " +cursor.getCount());
 	    	cursor.moveToFirst();
 	    	while(!cursor.isAfterLast()) {
-	            names.add(cursor.getString(cursor.getColumnIndex("c.Name"))) ;
-	            count.add(cursor.getString(cursor.getColumnIndex("c.NoOfAudios")));
+	    		Log.d("getMain", "in while");
+	    		Log.d("getMain", cursor.getString(cursor.getColumnIndex("Name")));
+	            names.add(cursor.getString(cursor.getColumnIndex("Name"))) ;
+	            count.add(cursor.getString(cursor.getColumnIndex("NoOfAudios")));
 	            cursor.moveToNext();  
 	        }
 	    	output.add(names);
 	    	output.add(count);
 	    	cursor.close();
+	    	close();
 	    	return output;
 	    }
 	    

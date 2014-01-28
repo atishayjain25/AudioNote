@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.ListActivity;
 import android.app.SearchManager;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -41,10 +42,9 @@ public class AudioNote_main_activity extends ListActivity {
 		Log.i(TAG, "First Run Activity Started");
 		Intent i = new Intent(this, ListenerService.class);
 		this.startService(i);
-
 		DB db = new DB(this);
-		//ArrayList<ArrayList<String>> data = db.mainActivityData();
-		ArrayList<String> names = new ArrayList<String>();
+		ArrayList<ArrayList<String>> data = db.getMainActivityData();
+		/*ArrayList<String> names = new ArrayList<String>();
 		names.add("Abhijeet");
 		names.add("Mayank");
 		names.add("Atishay");
@@ -53,10 +53,10 @@ public class AudioNote_main_activity extends ListActivity {
 		count.add("100");
 		count.add("23");
 		count.add("10");
-		count.add("25");
+		count.add("25");*/
 		
 		
-		setListAdapter(new MobileArrayAdapter(this, names, count));
+		setListAdapter(new MobileArrayAdapter(this, data.get(0), data.get(1)));
 
 		handleIntent(getIntent());
 	}

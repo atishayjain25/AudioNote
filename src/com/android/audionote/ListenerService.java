@@ -215,6 +215,7 @@ public class ListenerService extends Service implements SensorEventListener {
 	public static void setOtherPartyPhoneNumber(String phoneNumber)
 	{
 		incall = phoneNumber;
+		callId = 0;
 	}
 	
 	private String[] PickContact (Context context, String number){
