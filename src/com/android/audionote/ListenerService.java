@@ -183,13 +183,13 @@ public class ListenerService extends Service implements SensorEventListener {
 	
 	public void StartRecording()
 	{
-		recordingStartTime = new SimpleDateFormat("dd-MM-yyyy hh-mm-ss").format(new Date());
+		recordingStartTime = new SimpleDateFormat("dd-MM-yy hh-mm").format(new Date());
 		CallRecorder.StartRecording(getApplicationContext());
 	}
 	
 	public void StopRecording()
 	{
-		recordingEndTime = new SimpleDateFormat("dd-MM-yyyy hh-mm-ss").format(new Date());
+		recordingEndTime = new SimpleDateFormat("dd-MM-yy hh-mm").format(new Date());
 		File audioFile = CallRecorder.StopRecording();
 		String fileName = audioFile.getName();
 		String filesize = audioFile.length()/1024 + " KB";

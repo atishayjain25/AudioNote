@@ -230,8 +230,8 @@ public class DB {
 	    			bottomcursor.moveToNext();
 	    		}
 	    		bottomcursor.close();
+	    		
 	    		Audio.add(audioLog);
-    			audioLog.clear();
 	    		Topcursor.moveToNext();
 	    		
 	        }
