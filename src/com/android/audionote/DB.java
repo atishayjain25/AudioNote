@@ -248,5 +248,14 @@ public class DB {
 	    	
 	    	return result;
 	    }
+	    
+	    public void insertCallDateandDuration(String date, String duration, int contactId)
+	    {
+	    	String query = "Insert into CallInfo (StartTime, Duration) values ('" + date + "','" + duration + "') WHERE NameId = " + contactId;
+	    	Log.d("test",query);
+	    	SQLiteDatabase db = open();
+	    	db.execSQL(query);
+	    	close();
+	    }
 }
 

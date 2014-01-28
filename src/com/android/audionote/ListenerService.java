@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 import android.app.Service;
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -38,7 +37,6 @@ public class ListenerService extends Service implements SensorEventListener {
 	@Override
 	  public int onStartCommand(Intent intent, int flags, int startId) {
 		Log.i(TAG, "Listener Service started");
-		DB db = new DB(this);
 		//get the sensor service
 	    mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 	    //get the accelerometer sensor
@@ -76,7 +74,7 @@ public class ListenerService extends Service implements SensorEventListener {
 	private static int callId = 0;
 	private String recordingStartTime;
 	private String recordingEndTime;
-	private String[] contact = null;
+	private static String[] contact = null;
 	
 	/**
 	 * After we detect a shake, we ignore any events for a bit of time. We don't want two shakes to close together.
@@ -232,13 +230,16 @@ public class ListenerService extends Service implements SensorEventListener {
 	public static void getCallLogData(Context context)
 	{
 		Cursor managedCursor = context.getContentResolver().query(CallLog.Calls.CONTENT_URI, null, null, null, null);
-	    int number = managedCursor.getColumnIndex( CallLog.Calls.NUMBER ); 
-	    int type = managedCursor.getColumnIndex( CallLog.Calls.TYPE );
+	   // int number = managedCursor.getColumnIndex( CallLog.Calls.NUMBER ); 
+	   // int type = managedCursor.getColumnIndex( CallLog.Calls.TYPE );
 	    int date = managedCursor.getColumnIndex( CallLog.Calls.DATE);
 	    int duration = managedCursor.getColumnIndex( CallLog.Calls.DURATION);
 	    
-	    managedCursor.moveToFirst();
-	    
+	    managedCursor.moveToLast();
+	    String da = new SimpleDateFormat("dd-MM-yyyy hh-mm-ss").format(new Date(Long.parseLong(managedCursor.getString(date))));
+	    String du = managedCursor.getString(duration);
+	    DB db = new DB(context);
+	    db.insertCallDateandDuration(da,du,Integer.parseInt(contact[0]));
 	}
 	
 	private String[] PickContact (Context context, String number){
