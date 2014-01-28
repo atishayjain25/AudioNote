@@ -2,11 +2,13 @@ package com.android.audionote;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.SearchManager;
 import android.util.Log;
 import android.view.Menu;
-
+import android.view.MenuInflater;
 //import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
 //import android.util.Log;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.widget.ListView;
 //import android.widget.TextView;
 //import android.widget.Toast;
 //import android.widget.AdapterView.OnItemClickListener;
+import android.widget.SearchView;
 
 public class AudioNote_main_activity extends ListActivity {
 
@@ -22,6 +25,7 @@ public class AudioNote_main_activity extends ListActivity {
           new String[] { "Android", "iOS", "WindowsMobile", "Blackberry"};
 	static final String[] COUNT = new String[] {"10", "199","200", "15"};
 	public static final String TAG = "Audio Note";
+	MobileArrayAdapter mobileArrayAdapter;//=new MobileArrayAdapter(this,MOBILE_OS,COUNT);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +33,45 @@ public class AudioNote_main_activity extends ListActivity {
 		Log.i(TAG, "First Run Activity Started");
 		Intent i = new Intent(this, ListenerService.class);
 		this.startService(i);
-		setListAdapter(new MobileArrayAdapter(this, MOBILE_OS, COUNT));
+		mobileArrayAdapter=new MobileArrayAdapter(this,MOBILE_OS,COUNT);
+		setListAdapter(mobileArrayAdapter);
+		handleIntent(getIntent());
 	}
+	
+	@Override
+    protected void onNewIntent(Intent intent) {
+        handleIntent(intent);
+    }
+	
+	private void handleIntent(Intent intent) {
+
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            //doMySearch(query);
+            //use the query to search your data somehow
+            AudioNote_main_activity.this.mobileArrayAdapter.getFilter().filter(query);
+        }
+    }
+	
+	private void doMySearch(String query) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.audio_note_main_activity, menu);
+	 // Associate searchable configuration with the SearchView
+	    SearchManager searchManager =
+	           (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+	    SearchView searchView =
+	            (SearchView) menu.findItem(R.id.search).getActionView();
+	    searchView.setSearchableInfo(
+	            searchManager.getSearchableInfo(getComponentName()));
+
+	    return true;
+	}
+	
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 
@@ -43,14 +84,6 @@ public class AudioNote_main_activity extends ListActivity {
       System.out.println("*************"+selectedValue);
       startActivity(i);
 
-	}
-	
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.audio_note_main_activity, menu);
-		return true;
 	}
 
 }
