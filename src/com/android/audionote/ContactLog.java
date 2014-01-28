@@ -47,8 +47,8 @@ public class ContactLog extends ExpandableListActivity{
 		expandableList.setAdapter(adapter);
 		expandableList.setOnChildClickListener(this);
 		ActionBar ab = getActionBar();
-        ab.setTitle("Name");
-        ab.setSubtitle("Contact No");
+        ab.setTitle("   " + i.getStringExtra("Name"));
+        ab.setSubtitle("   " + i.getStringExtra("phoneNumber"));
 	}
 
 	public void setGroupParents() {
