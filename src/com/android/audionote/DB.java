@@ -167,6 +167,7 @@ public class DB {
 	    	Cursor cursor = db.rawQuery(query, null);
 	    	close(); 
 	  
+	    	cursor.moveToFirst();
 	    	while(!cursor.isAfterLast()) {
 	            names.add(cursor.getString(cursor.getColumnIndex("c.Name"))) ;
 	            count.add(cursor.getString(cursor.getColumnIndex("c.NoOfAudios")));
@@ -176,6 +177,55 @@ public class DB {
 	    	output.add(count);
 	    	cursor.close();
 	    	return output;
+	    }
+	    
+	    public ArrayList<Object> getCallandAudioDetails( int contactId)
+	    {
+	    	String Topquery = "Select StartTime, Duration, Callid From CallInfo WHERE NameId =" + contactId + " ORDER BY StartTime DESC";
+	    	String bottomQuery;
+	    	int callId;
+	    	ArrayList<String> callLog = new ArrayList<String>();
+	    	ArrayList<String> audioLog;
+	    	ArrayList<ArrayList<String>> Audio = new ArrayList<ArrayList<String>>();
+	    	SQLiteDatabase db = open();
+	    	Cursor bottomcursor, Topcursor = db.rawQuery(Topquery, null);
+	    	
+	    	Topcursor.moveToFirst();
+	    	while(!Topcursor.isAfterLast()) {
+	    		callLog.add(Topcursor.getString(Topcursor.getColumnIndex("StartTime")));
+	    		callLog.add(Topcursor.getString(Topcursor.getColumnIndex("Duration")));
+	    		
+	    		callId = Integer.parseInt(Topcursor.getString(Topcursor.getColumnIndex("Callid")));
+	    		bottomQuery = "Select StartTime, EndTime, AudioName, AudioSize FROM AudioInfo WHERE Callid = "+ callId + " ORDER BY StartTime DESC";
+	    		
+	    		bottomcursor = db.rawQuery(bottomQuery, null);
+	    		callLog.add(bottomcursor.getCount()+"");
+	    		audioLog = new ArrayList<String>();
+	    		
+	    		bottomcursor.moveToFirst();
+	    		while(!bottomcursor.isAfterLast()){
+	    			audioLog.add(bottomcursor.getString(bottomcursor.getColumnIndex("StartTime")));
+	    			audioLog.add(bottomcursor.getString(bottomcursor.getColumnIndex("Endtime")));
+	    			audioLog.add(bottomcursor.getString(bottomcursor.getColumnIndex("AudioSize")));
+	    			audioLog.add(bottomcursor.getString(bottomcursor.getColumnIndex("AudioName")));
+	    			
+	    			bottomcursor.moveToNext();
+	    		}
+	    		bottomcursor.close();
+	    		Audio.add(audioLog);
+    			audioLog.clear();
+	    		Topcursor.moveToNext();
+	    		
+	        }
+	    	
+	    	Topcursor.close();
+	    	db.close();
+	    	
+	    	ArrayList<Object> result = new ArrayList<Object>();
+	    	result.add(callLog);
+	    	result.add(Audio);
+	    	
+	    	return result;
 	    }
 }
 
