@@ -43,9 +43,20 @@ public class AudioNote_main_activity extends ListActivity {
 		this.startService(i);
 
 		DB db = new DB(this);
-		ArrayList<ArrayList<String>> data = db.mainActivityData();
+		//ArrayList<ArrayList<String>> data = db.mainActivityData();
+		ArrayList<String> names = new ArrayList<String>();
+		names.add("Abhijeet");
+		names.add("Mayank");
+		names.add("Atishay");
+		names.add("Divya");
+		ArrayList<String> count = new ArrayList<String>();
+		count.add("100");
+		count.add("23");
+		count.add("10");
+		count.add("25");
 		
-		setListAdapter(new MobileArrayAdapter(this, data.get(0), data.get(1)));
+		
+		setListAdapter(new MobileArrayAdapter(this, names, count));
 
 		handleIntent(getIntent());
 	}

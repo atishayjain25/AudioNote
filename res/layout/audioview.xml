@@ -1,27 +1,54 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="40dp"
-    android:background="@android:color/black"
     android:clickable="true"
     android:orientation="vertical"
-    android:paddingLeft="40dp"
+    android:paddingLeft="20dp"
     tools:context=".MainActivity" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="39dp"
-        android:gravity="center_vertical">
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:textIsSelectable="true"
-            android:textColor="#FFFFFF"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-</LinearLayout>
+    <TextView
+        android:id="@+id/audio_file_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textIsSelectable="true"
+        android:textSize="14sp" />
+    
+    <ImageButton
+        android:id="@+id/play_button"
+        android:contentDescription="@string/play_button_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/ic_action_play" />
+    
+    <TextView
+        android:id="@+id/audio_file_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textIsSelectable="true"
+        android:layout_toLeftOf="@id/play_button"
+        android:layout_marginRight="10dp"
+        android:textSize="14sp" />
+    
+    <TextView
+        android:id="@+id/audio_start_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textIsSelectable="true"
+        android:layout_below="@id/audio_file_name"
+        android:textColor="#BEBEBE"
+        android:textSize="14sp" />
+    
+    <TextView
+        android:id="@+id/audio_end_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textIsSelectable="true"
+        android:layout_below="@id/audio_file_name"
+        android:textColor="#BEBEBE"
+        android:layout_toLeftOf="@id/play_button"
+        android:layout_marginRight="10dp"
+        android:textSize="14sp" />
+</RelativeLayout>
