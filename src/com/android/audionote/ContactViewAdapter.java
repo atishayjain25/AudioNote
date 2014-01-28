@@ -40,8 +40,20 @@ public class ContactViewAdapter extends BaseExpandableListAdapter {
 			convertView = inflater.inflate(R.layout.audioview, null);
 		}
 
-		textView = (TextView) convertView.findViewById(R.id.textView1);
+		textView = (TextView) convertView.findViewById(R.id.audio_file_name);
 		textView.setText(child.get(childPosition));
+		
+		textView = (TextView) convertView.findViewById(R.id.audio_file_size);
+		textView.setText("123 Kb");
+		
+		textView = (TextView) convertView.findViewById(R.id.audio_file_size);
+		textView.setText("123 Kb");
+		
+		textView = (TextView) convertView.findViewById(R.id.audio_start_time);
+		textView.setText("2:25:10 pm");
+		
+		textView = (TextView) convertView.findViewById(R.id.audio_end_time);
+		textView.setText("2:26:00 pm");
 
 		convertView.setOnClickListener(new OnClickListener() {
 
