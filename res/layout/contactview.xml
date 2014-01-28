@@ -13,6 +13,7 @@
         android:textStyle="bold"/>
     
     <TextView
+        android:id="@+id/call_duration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/duration"
@@ -20,7 +21,8 @@
         android:layout_marginRight="100dp"/>
 
     <TextView
-    android:layout_width="wrap_content"
+      	android:id="@+id/audio_snippet_count"
+    	android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/audio_snippets"
         android:layout_alignParentRight="true"

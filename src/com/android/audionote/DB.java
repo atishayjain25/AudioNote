@@ -249,9 +249,9 @@ public class DB {
 	    	return result;
 	    }
 	    
-	    public void insertCallDateandDuration(String date, String duration, int contactId)
+	    public void insertCallDateandDuration(String date, String duration, int callID)
 	    {
-	    	String query = "Insert into CallInfo (StartTime, Duration) values ('" + date + "','" + duration + "') WHERE NameId = " + contactId;
+	    	String query = "Update CallInfo Set StartTime = '" + date + "', Duration  = '" + duration +"' WHERE Callid = " + callID;
 	    	Log.d("test",query);
 	    	SQLiteDatabase db = open();
 	    	db.execSQL(query);

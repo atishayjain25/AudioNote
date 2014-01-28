@@ -236,10 +236,10 @@ public class ListenerService extends Service implements SensorEventListener {
 	    int duration = managedCursor.getColumnIndex( CallLog.Calls.DURATION);
 	    
 	    managedCursor.moveToLast();
-	    String da = new SimpleDateFormat("dd-MM-yyyy hh-mm-ss").format(new Date(Long.parseLong(managedCursor.getString(date))));
-	    String du = managedCursor.getString(duration);
+	    String da = new SimpleDateFormat("dd-MMM hh-mm a").format(new Date(Long.parseLong(managedCursor.getString(date))));
+	    String du = managedCursor.getString(duration) + " sec";
 	    DB db = new DB(context);
-	    db.insertCallDateandDuration(da,du,Integer.parseInt(contact[0]));
+	    db.insertCallDateandDuration(da,du,callId);
 	}
 	
 	private String[] PickContact (Context context, String number){

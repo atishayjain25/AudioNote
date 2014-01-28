@@ -89,8 +89,11 @@ public class ContactViewAdapter extends BaseExpandableListAdapter {
 			convertView = inflater.inflate(R.layout.contactview, null);
 		}
 
-		((TextView) convertView.findViewById(R.id.textView1)).setText(parentItems.get(groupPosition*3 + 2));
-		//((CheckedTextView) convertView).setChecked(isExpanded);
+		((TextView) convertView.findViewById(R.id.textView1)).setText(parentItems.get(groupPosition*3));
+		
+		((TextView) convertView.findViewById(R.id.call_duration)).setText(parentItems.get(groupPosition*3 + 1));
+		
+		((TextView) convertView.findViewById(R.id.audio_snippet_count)).setText(parentItems.get(groupPosition*3 + 2));
 
 		return convertView;
 	}
