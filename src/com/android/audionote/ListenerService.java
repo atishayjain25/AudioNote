@@ -27,6 +27,7 @@ public class ListenerService extends Service implements SensorEventListener {
 	private SensorManager mSensorManager;
 	private Sensor mAccelerometer;
 	public static final String TAG = "Audio Note";
+	private static boolean showFirstRun = true;
 	
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -43,6 +44,14 @@ public class ListenerService extends Service implements SensorEventListener {
 	    //get the accelerometer sensor
 	    mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 	    mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+	    
+	    if(showFirstRun)
+	    {
+	    	Intent i = new Intent(getApplicationContext(), FirstRun.class);
+	    	i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(i);
+			showFirstRun = false;
+	    }
 	    return Service.START_NOT_STICKY;
 	  }
 

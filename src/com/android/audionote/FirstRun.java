@@ -2,10 +2,14 @@ package com.android.audionote;
 
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageButton;
 
 public class FirstRun extends Activity {
 
@@ -18,6 +22,16 @@ public class FirstRun extends Activity {
 		Log.i(TAG, "First Run Activity Started");
 		Intent i = new Intent(this, ListenerService.class);
 		this.startService(i);
+		
+		findViewById(R.id.continue_btn).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent i = new Intent(getApplicationContext(), AudioNote_main_activity.class);
+				i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				getApplicationContext().startActivity(i);
+			}
+		});
+
 	}
 
 	@Override
