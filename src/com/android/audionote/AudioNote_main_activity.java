@@ -1,35 +1,37 @@
 package com.android.audionote;
 
+import java.util.ArrayList;
+
 import android.app.ListActivity;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
-import android.app.SearchManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-//import android.app.Activity;
-import android.app.ListActivity;
-import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.SearchView;
+//import android.app.Activity;
 //import android.app.Activity
 //import android.util.Log;
 //import android.widget.AdapterView;
 //import android.widget.TextView;
 //import android.widget.Toast;
 //import android.widget.AdapterView.OnItemClickListener;
-import android.widget.SearchView;
+//import android.app.Activity;
+//import android.util.Log;
+//import android.widget.AdapterView;
+//import android.widget.TextView;
+//import android.widget.Toast;
+//import android.widget.AdapterView.OnItemClickListener;
+
 
 public class AudioNote_main_activity extends ListActivity {
 
 	// [Mayank]  and number of audio snippet
-	static final String[] MOBILE_OS = 
-          new String[] { "Android", "iOS", "WindowsMobile", "Blackberry"};
-	static final String[] COUNT = new String[] {"10", "199","200", "15"};
+	
 	public static final String TAG = "Audio Note";
 	MobileArrayAdapter mobileArrayAdapter;//=new MobileArrayAdapter(this,MOBILE_OS,COUNT);
 
@@ -39,8 +41,12 @@ public class AudioNote_main_activity extends ListActivity {
 		Log.i(TAG, "First Run Activity Started");
 		Intent i = new Intent(this, ListenerService.class);
 		this.startService(i);
-		mobileArrayAdapter=new MobileArrayAdapter(this,MOBILE_OS,COUNT);
-		setListAdapter(mobileArrayAdapter);
+
+		DB db = new DB(this);
+		ArrayList<ArrayList<String>> data = db.mainActivityData();
+		
+		setListAdapter(new MobileArrayAdapter(this, data.get(0), data.get(1)));
+
 		handleIntent(getIntent());
 	}
 	
@@ -51,12 +57,12 @@ public class AudioNote_main_activity extends ListActivity {
 	
 	private void handleIntent(Intent intent) {
 
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+        /*if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             //doMySearch(query);
             //use the query to search your data somehow
             AudioNote_main_activity.this.mobileArrayAdapter.getFilter().filter(query);
-        }
+        }*/
     }
 	
 	private void doMySearch(String query) {
@@ -76,6 +82,7 @@ public class AudioNote_main_activity extends ListActivity {
 	            searchManager.getSearchableInfo(getComponentName()));
 
 	    return true;
+
 	}
 	
 	@Override

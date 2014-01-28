@@ -1,5 +1,7 @@
 package com.android.audionote;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +12,10 @@ import android.widget.TextView;
  
 public class MobileArrayAdapter extends ArrayAdapter<String> {
 	private final Context context;
-	private final String[] names;
-	private final String[] counts;
+	private final ArrayList<String> names;
+	private final ArrayList<String> counts;
  
-	public MobileArrayAdapter(Context context, String[] names, String[] counts) {
+	public MobileArrayAdapter(Context context, ArrayList<String> names, ArrayList<String> counts) {
 		super(context, R.layout.audio_log, names);
 		this.context = context;
 		this.names = names;
@@ -29,13 +31,9 @@ public class MobileArrayAdapter extends ArrayAdapter<String> {
 		TextView textView_name = (TextView) rowView.findViewById(R.id.label);
 		TextView textView_count= (TextView) rowView.findViewById(R.id.count);
 		ImageView imageView = (ImageView) rowView.findViewById(R.id.logo);
-		textView_name.setText(names[position]);
-		textView_count.setText(counts[position]);
+		textView_name.setText(names.get(position));
+		textView_count.setText(counts.get(position));
  
-		// Change icon based on name
-		String s = names[position];
- 
-		System.out.println(s);
 		imageView.setImageResource(R.drawable.default_picture);
  
 		return rowView;
