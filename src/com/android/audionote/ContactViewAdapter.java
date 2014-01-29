@@ -55,7 +55,7 @@ public class ContactViewAdapter extends BaseExpandableListAdapter {
 			Date startDate = new SimpleDateFormat("dd-MM-yyyy hh-mm-ss").parse(child.get(4*(childPosition)));
 			Date endDate = new SimpleDateFormat("dd-MM-yyyy hh-mm-ss").parse(child.get(4*(childPosition) + 1));
 			
-			startDateString = new SimpleDateFormat("dd-MMM hh-mm a").format(startDate);
+			startDateString = new SimpleDateFormat("dd MMM hh:mm a").format(startDate);
 			long duration = ((endDate.getTime() - startDate.getTime())/1000);
 			durationString = duration + " sec";
 		}

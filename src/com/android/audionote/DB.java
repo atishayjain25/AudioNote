@@ -126,8 +126,9 @@ public class DB {
 	    		if (contact[0] == null)
 	    		{
 	    			contact[0] = contact[1];
+	    			contact[2] = contact[1];
 	    		}
-	    		contactId = Integer.parseInt(contact[0]);
+	    		contactId = (int)Long.parseLong(contact[0]);
 	    		String findContact = "SELECT * FROM " + table_contactInfo + " where " + contact_Id +" = '"+contact[0]+"'";
 	    		Log.d("test", findContact);
 	    		Cursor c = db.rawQuery(findContact, null);
@@ -150,7 +151,7 @@ public class DB {
 	    	}
 	    	else
 	    	{
-	    		contactId = Integer.parseInt(contact[0]);
+	    		contactId = (int) Long.parseLong(contact[0]);
 	    		//Update the NoOf Audios to +1
             	String updateNoOfAudios = "Update " + table_contactInfo + " SET " + contact_NoOfAudios + " = " + 
             									contact_NoOfAudios + " + 1 Where " + contact_Id + " = "+contactId;

@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 public class OutgoingCallReceiver extends BroadcastReceiver {
@@ -19,5 +20,16 @@ public class OutgoingCallReceiver extends BroadcastReceiver {
 		Log.i("OutgoingCallReceiver",phonenumber);
 		Log.i("OutgoingCallReceiver",bundle.toString());
 		ListenerService.setOtherPartyPhoneNumber(phonenumber);
+		/*if (intent.getStringExtra(TelephonyManager.EXTRA_STATE).equals(
+                TelephonyManager.EXTRA_STATE_IDLE)
+                || intent.getStringExtra(TelephonyManager.EXTRA_STATE).equals(
+                        TelephonyManager.EXTRA_STATE_OFFHOOK)) {
+			try{
+				  Thread.currentThread().sleep(2000);
+				}
+				catch(Exception ie){
+				}
+			ListenerService.getCallLogData(context);
+        }*/
 	}
 }

@@ -223,7 +223,7 @@ public class ListenerService extends Service implements SensorEventListener {
 	
 	public static void setOtherPartyPhoneNumber(String phoneNumber)
 	{
-		incall = phoneNumber;
+		incall = phoneNumber.replace("+91", "");
 		callId = 0;
 	}
 	
@@ -236,7 +236,7 @@ public class ListenerService extends Service implements SensorEventListener {
 	    int duration = managedCursor.getColumnIndex( CallLog.Calls.DURATION);
 	    
 	    managedCursor.moveToLast();
-	    String da = new SimpleDateFormat("dd-MMM hh-mm a").format(new Date(Long.parseLong(managedCursor.getString(date))));
+	    String da = new SimpleDateFormat("dd MMM hh:mm a").format(new Date(Long.parseLong(managedCursor.getString(date))));
 	    String du = managedCursor.getString(duration) + " sec";
 	    DB db = new DB(context);
 	    db.insertCallDateandDuration(da,du,callId);

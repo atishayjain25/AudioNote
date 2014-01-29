@@ -29,6 +29,11 @@ public class IncomingCallReceiver extends BroadcastReceiver {
 		
 		if(state.equals(TelephonyManager.EXTRA_STATE_IDLE))
 		{
+			try{
+				  Thread.currentThread().sleep(2000);
+				}
+				catch(Exception ie){
+				}
 			ListenerService.getCallLogData(context);
 		}
 	}
