@@ -3,13 +3,24 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:background="#BBBBBB"
-    android:padding="10dp" >
+    android:padding="5dp" >
  
+    <ImageView
+        android:id="@+id/phone_call_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/ic_action_call" />
+    
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_toRightOf="@id/phone_call_icon"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp"
+        android:layout_gravity="center_vertical"
         android:textStyle="bold"/>
     
     <TextView
@@ -18,13 +29,23 @@
         android:layout_height="wrap_content"
         android:text="@string/duration"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="100dp"/>
-
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="80dp"/>
+    
     <TextView
       	android:id="@+id/audio_snippet_count"
     	android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/audio_snippets"
+        android:layout_marginTop="10dp"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"/>
+    
+    <ImageView
+        android:id="@+id/audio_file_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_toLeftOf="@id/audio_snippet_count"
+        android:src="@drawable/audio_file" />
 </RelativeLayout>
