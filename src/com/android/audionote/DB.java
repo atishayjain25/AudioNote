@@ -129,7 +129,7 @@ public class DB {
 	    			contact[2] = contact[1];
 	    		}
 	    		contactId = (int)Long.parseLong(contact[0]);
-	    		String findContact = "SELECT * FROM " + table_contactInfo + " where " + contact_Id +" = '"+contact[0]+"'";
+	    		String findContact = "SELECT * FROM " + table_contactInfo + " where " + contact_Id +" = '"+contactId+"'";
 	    		Log.d("test", findContact);
 	    		Cursor c = db.rawQuery(findContact, null);
 	            if (c.getCount() == 0 ) {
